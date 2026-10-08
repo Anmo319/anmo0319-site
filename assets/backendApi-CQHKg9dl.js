@@ -1,1 +1,0 @@
-const a="https://anmo-backend-two.vercel.app";async function e(t){const r=await fetch(a+"/api/models",{signal:t}),o=await r.json().catch(()=>null);if(!r.ok)throw Error(`HTTP ${r.status} · ${String(o?.error||"模型接口不可用").slice(0,140)}`);if(!Array.isArray(o?.models))throw Error("模型列表格式错误");return o.models}export{a as BACKEND_URL,e as backendFetchModels};

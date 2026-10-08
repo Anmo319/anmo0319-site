@@ -1,1 +1,0 @@
-const s="https://anmo-relay.fogstain.workers.dev";async function a(t){const r=await fetch(s+"/api/models",{signal:t}),o=await r.json().catch(()=>null);if(!r.ok)throw Error(`HTTP ${r.status} · ${String(o?.error||"模型接口不可用").slice(0,140)}`);if(!Array.isArray(o?.models))throw Error("模型列表格式错误");return o.models}export{s as BACKEND_URL,a as backendFetchModels};
