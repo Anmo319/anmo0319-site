@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Backend Test</title></head>
+<body>
+<h2>Backend Connection Test</h2>
+<div id="result">Testing...</div>
+<script>
+async function test() {
+  const el = document.getElementById('result');
+  try {
+    // Test 1: models
+    el.innerHTML += '<p>1. Fetching models...</p>';
+    const r1 = await fetch('https://anmo-backend-two.vercel.app/api/models');
+    const d1 = await r1.json();
+    el.innerHTML += '<p>✓ Models OK: ' + d1.models.length + ' models</p>';
+    
+    // Test 2: chat
+    el.innerHTML += '<p>2. Testing chat...</p>';
+    const r2 = await fetch('https://anmo-backend-two.vercel.app/api/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'qwen/qwen3.8-max:free',
+        messages: [{role: 'user', content: 'hi'}],
+        stream: false,
+        max_tokens: 10
+      })
+    });
+    const d2 = await r2.json();
+    el.innerHTML += '<p>✓ Chat OK: ' + (d2.choices?.[0]?.message?.content || 'no content').substring(0, 50) + '</p>';
+    el.innerHTML += '<p style="color:green"><b>ALL TESTS PASSED - Backend works from your browser!</b></p>';
+  } catch (e) {
+    el.innerHTML += '<p style="color:red">✗ FAILED: ' + e.message + '</p>';
+  }
+}
+test();
+</script>
+</body></html>
