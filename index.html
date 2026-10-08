@@ -1,25 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>anmo0319.qd.je</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #0b0e14; color: #e8eaf0; font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; }
-  .card { text-align: center; padding: 3rem 2rem; }
-  .domain { font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 700; letter-spacing: .04em; background: linear-gradient(120deg, #7dd3fc, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .status { margin-top: 1.2rem; font-size: 1rem; color: #9aa3b2; display: inline-flex; align-items: center; gap: .5rem; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; background: #34d399; box-shadow: 0 0 12px #34d399; animation: pulse 2s infinite; }
-  @keyframes pulse { 50% { opacity: .4; } }
-  .hint { margin-top: 2.5rem; font-size: .85rem; color: #5b6472; }
-</style>
-</head>
-<body>
-  <div class="card">
-    <div class="domain">anmo0319.qd.je</div>
-    <div class="status"><span class="dot"></span>域名已上线，网站建设中</div>
-    <div class="hint">anmo studio · 2026</div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#f5f6fa" />
+    <script>
+      (() => {
+        let mode = "system";
+        try {
+          mode =
+            JSON.parse(
+              localStorage.getItem("anmo.settings.v2") ||
+                localStorage.getItem("anmo.settings.v1") ||
+                "{}",
+            ).themeMode || "system";
+        } catch {}
+        const theme =
+          mode === "dark" ||
+          (mode !== "light" &&
+            matchMedia("(prefers-color-scheme: dark)").matches)
+            ? "dark"
+            : "light";
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+    <style>
+      html {
+        background: #f5f6fa;
+      }
+      html[data-theme="dark"] {
+        background: #11131c;
+      }
+    </style>
+    <title>Anmo 2.2 · 安莫</title>
+    <script type="module" crossorigin src="/assets/index-DOd7LMit.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/theme-u1afJCFX.js">
+    <link rel="modulepreload" crossorigin href="/assets/cloudStorage-f-t4vmj0.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CI3AYfZe.css">
+  </head>
+  <body>
+    <div id="root">
+      <div
+        id="startup-status"
+        role="status"
+        style="padding: 24px; font: 16px system-ui; color: #888"
+      >
+        <p>正在打开安莫…</p>
+        <button
+          id="startup-retry"
+          hidden
+          style="min-width: 44px; min-height: 44px; font: inherit"
+        >
+          重新打开
+        </button>
+      </div>
+    </div>
+    <script>
+      (() => {
+        const status = document.getElementById("startup-status");
+        const retry = document.getElementById("startup-retry");
+        const recover = () => {
+          if (!status.isConnected) return;
+          status.querySelector("p").textContent =
+            "打开暂未完成，请检查网络后重试。现有内容会保留。";
+          retry.hidden = false;
+        };
+        retry.addEventListener("click", () => location.reload());
+        window.addEventListener("error", recover);
+        window.addEventListener("unhandledrejection", recover);
+        setTimeout(recover, 15000);
+      })();
+    </script>
+  </body>
 </html>
