@@ -63,15 +63,21 @@
       (() => {
         const status = document.getElementById("startup-status");
         const retry = document.getElementById("startup-retry");
+        const showError = (msg) => {
+          if (!status.isConnected) return;
+          status.innerHTML = '<p style="color:#f00">启动失败: ' + String(msg).slice(0, 500) + '</p><p>请截图发给开发者</p>';
+          retry.hidden = false;
+        };
         const recover = () => {
           if (!status.isConnected) return;
+          if (status.querySelector('p[style*="color:#f00"]')) return;
           status.querySelector("p").textContent =
             "打开暂未完成，请检查网络后重试。现有内容会保留。";
           retry.hidden = false;
         };
         retry.addEventListener("click", () => location.reload());
-        window.addEventListener("error", recover);
-        window.addEventListener("unhandledrejection", recover);
+        window.addEventListener("error", (e) => showError(e.message || e.error));
+        window.addEventListener("unhandledrejection", (e) => showError(e.reason));
         setTimeout(recover, 15000);
       })();
     </script>
