@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Veil Vault · 私密保险库",
-  "short_name": "Veil Vault",
+  "name": "Anmo密码管理器",
+  "short_name": "Anmo密码",
   "description": "本地加密的密码、银行卡与私密备忘管理器",
   "start_url": "/",
   "scope": "/",
